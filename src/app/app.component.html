@@ -1,0 +1,108 @@
+<div class="container" style="width:30%;margin-top: 10px;">
+
+    <!--Phone Book App Heading-->
+    <div style="text-align: center;font-size: 25px;">
+        <span class="fa fa-address-book"></span>
+        <span style="margin:3px;font-weight: bold;">Phone Book App</span>
+    </div>
+ 
+    <!--Contacts and Add Contact Button-->
+    <div style="margin-top: 50px;">
+        <span>
+        <h4>Contacts<button (click)="openAdd(add)" class="btn btn-primary" style="float: right;">+Add Contact</button></h4>
+        </span>
+    </div>
+
+    <!--Search Bar-->
+    <div style="width: 100%;margin-top:30px;">
+        <div class="input-icons">
+            <i class="fa fa-search"></i>
+            <input class="input-field" type="text" placeholder="Search for Contact By Last Name..." [(ngModel)]="nameSearch">    
+        </div>
+    </div>
+
+    <!--List of Contacts-->
+    <div class="row justify-content-center">
+        <div class="col-md-12 py-4">
+            <table class="table table-striped">
+                <tbody>
+                    <tr *ngFor="let user of co | search:nameSearch">
+                        <td><b>{{ user.fname }} {{ user.lname }}</b><br><span class="fa fa-phone">  {{showphone(user)}}</span></td>
+                        <td style="text-align:right">
+                            <button class="btn btn-warning" (click)="openEdit(edit,user)"title="Edit Contact"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                        </td>
+                        <td style="text-align:right">
+                            <button class="btn btn-danger" title="Delete Contact" (click)="delete(user)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<!--Add Contact Form-->
+<ng-template #add let-modal>
+    <div>
+        <div class="modal-header"> 
+            <h4 class="modal-title" id="modal-basic-title">New Contact</h4> 
+        </div> 
+        <div class="modal-body"> 
+            <form [formGroup]="addContactForm" (ngSubmit)="onSubmitAdd(addContactForm.value)"> 
+                <div class="form-group">
+                    <input id="fname" class="form-control" formControlName="fname" placeholder="Enter first name" type="text">   
+                </div>
+                <div class="form-group">
+                    <input id="lname" class="form-control" formControlName="lname" placeholder="Enter last name" type="text">   
+                </div> 
+                <div class="form-group">
+                    <input id="pnumber" class="form-control" formControlName="pnumber" placeholder="Enter phone number" type="text">   
+                </div>  
+                <div class="modal-footer"> 
+                    <button type="button" class="btn btn-primary" type="submit" [disabled]="!addContactForm.valid">Create</button> 
+                    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Cancel</button>
+                </div> 
+            </form> 
+        </div> 
+    </div>
+</ng-template>
+
+<!--Edit Contact Form-->
+<ng-template #edit let-modal>
+    <div>
+        <div class="modal-header"> 
+            <h4 class="modal-title" id="modal-basic-title2">Edit Contact</h4>
+        </div> 
+        <div class="modal-body"> 
+            <form [formGroup]="editContactForm" (ngSubmit)="onSubmitEdit(editContactForm.value)"> 
+                <div class="form-group">
+                    <input id="fname" class="form-control" formControlName="fname"  type="text">   
+                </div>
+                <div class="form-group">
+                    <input id="lname" class="form-control" formControlName="lname"  type="text">   
+                </div> 
+                <div class="form-group">
+                    <input id="pnumber" class="form-control" formControlName="pnumber"  type="text">   
+                </div>  
+                <div class="modal-footer"> 
+                    <button type="button" class="btn btn-primary" type="submit" [disabled]="!editContactForm.valid">Edit</button> 
+                    <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Cancel</button>
+                </div> 
+            </form> 
+        </div> 
+    </div> 
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
